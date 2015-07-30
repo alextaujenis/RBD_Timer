@@ -17,7 +17,7 @@ bool Timer::isActive() {
   return _timeout > getRelativeValue();
 }
 
-bool Timer::isInactive() {
+bool Timer::isExpired() {
   return _timeout < getRelativeValue();
 }
 
