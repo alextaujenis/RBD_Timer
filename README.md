@@ -16,7 +16,7 @@ The Arduino real-time loop stops advancing when you write delay() in your sketch
 #Documentation
 
 ##setTimeout(unsigned long value)
-Initially set and/or change how long the timer will run. This can be done inside of setup() and/or called at runtime to change the value on the fly.
+Initially set and/or change how long the timer will run (in milliseconds). This can be done inside of setup() and/or called at runtime to change the value on the fly.
 
     #include <Timer.h>
     Timer timer;

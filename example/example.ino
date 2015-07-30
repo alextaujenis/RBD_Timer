@@ -1,4 +1,4 @@
-// Timer Example - A non-blocking clock that counts half seconds with two independent intervals
+// Arduino Timer Example - A non-blocking clock that counts half seconds with two independent intervals
 // Copyright 2015 Alex Taujenis
 // MIT License
 

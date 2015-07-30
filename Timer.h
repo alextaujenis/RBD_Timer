@@ -1,4 +1,4 @@
-// Timer.cpp - An encapsulation of timing with non-blocking millis and no delay
+// Arduino Timer - An encapsulation of timing with non-blocking millis and no delay
 // Copyright 2015 Alex Taujenis
 // MIT License
 
