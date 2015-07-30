@@ -1,9 +1,9 @@
+// Timer.cpp - An encapsulation of timing with non-blocking millis and no delay
+// Copyright 2015 Alex Taujenis
+// MIT License
+
 #include <Arduino.h>
 #include <Timer.h>
-
-Timer::Timer() {
-  // no op
-}
 
 void Timer::setTimeout(unsigned long value) {
   _timeout = value;
@@ -11,25 +11,24 @@ void Timer::setTimeout(unsigned long value) {
 
 void Timer::restart() {
   _waypoint = millis();
-  _active   = true;
-}
-
-void Timer::stop() {
-  _waypoint = 0;
-  _active   = false;
 }
 
 bool Timer::isActive() {
-  return _active && _timeout > getRelativeValue();
+  return _timeout > getRelativeValue();
 }
 
 bool Timer::isInactive() {
-  return !_active || _timeout < getRelativeValue();
+  return _timeout < getRelativeValue();
 }
+
 unsigned long Timer::getRelativeValue() {
   return millis() - _waypoint;
 }
 
 float Timer::getPercentValue() {
   return getRelativeValue() / float(_timeout);
+}
+
+float Timer::getInversePercentValue() {
+  return 1 - getPercentValue();
 }
