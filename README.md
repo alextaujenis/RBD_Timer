@@ -8,12 +8,21 @@ The Arduino real-time loop stops advancing when you write delay() in your sketch
 
 #Example Sketch
 0. Install this Arduino Library by copying it to your libraries folder
-0. Compile and load the example.ino onto a Arduino
+0. Compile and load the [example.ino](https://github.com/alextaujenis/Timer/blob/master/example/example.ino) to the Arduino
 0. Open the Serial prompt at 11500 BAUD
 0. Watch a non-blocking clock tick by at two independent intervals
 
 
 #Documentation
+
+##Public Methods
+* [setTimeout(unsigned long)](https://github.com/alextaujenis/Timer#settimeoutunsigned-long)
+* [restart()](https://github.com/alextaujenis/Timer#restart)
+* [isActive()](https://github.com/alextaujenis/Timer#isactive)
+* [isExpired()](https://github.com/alextaujenis/Timer#isexpired)
+* [getRelativeValue()](https://github.com/alextaujenis/Timer#getrelativevalue)
+* [getPercentValue()](https://github.com/alextaujenis/Timer#getpercentvalue)
+* [getInversePercentValue()](https://github.com/alextaujenis/Timer#getinversepercentvalue)
 
 ##setTimeout(unsigned long)
 Change how long the timer will run (in milliseconds). This can be done inside of setup(), and/or called at runtime to change the value on the fly.
