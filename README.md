@@ -7,16 +7,16 @@ The Arduino real-time loop stops advancing when you write delay() in your sketch
 
 
 #Example Sketch
-0. Install this library in the correct folder
-0. Load up example/example.ino on your Arduino
-0. Attach to your Serial prompt at 11500 baud
-0. Watch a non-blocking clock tick by with two independent intervals
+0. Install this Arduino Library by copying it to your libraries folder
+0. Compile and load the example.ino onto a Arduino
+0. Open the Serial prompt at 11500 BAUD
+0. Watch a non-blocking clock tick by at two independent intervals
 
 
 #Documentation
 
-##setTimeout(unsigned long value)
-Initially set and/or change how long the timer will run (in milliseconds). This can be done inside of setup() and/or called at runtime to change the value on the fly.
+##setTimeout(unsigned long)
+Change how long the timer will run (in milliseconds). This can be done inside of setup(), and/or called at runtime to change the value on the fly.
 
     #include <Timer.h>
     Timer timer;
@@ -25,13 +25,13 @@ Initially set and/or change how long the timer will run (in milliseconds). This 
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(timeout);
+      timer.setTimeout(timeout);
     }
 
     void loop() {
       if(timer.isExpired()) {
         // increase timeout size +1ms each iteration
-        timer.setInterval(timeout++);
+        timer.setTimeout(timeout++);
         // keep running forever
         timer.restart();
       }
@@ -45,7 +45,7 @@ There are no start() or stop() methods. All you need to do is restart() the time
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(1000);
+      timer.setTimeout(1000);
     }
 
     void loop() {
@@ -63,7 +63,9 @@ Returns true if time is available.
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(1000);
+      timer.setTimeout(1000);
+      // timer starts expired; call restart to trigger isActive below
+      timer.restart();
     }
 
     void loop() {
@@ -81,7 +83,7 @@ Returns true if time has run out.
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(1000);
+      timer.setTimeout(1000);
     }
 
     void loop() {
@@ -101,12 +103,14 @@ Returns how many milliseconds that have passed since the start of the timer.
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(1000);
+      timer.setTimeout(1000);
+      // timer starts expired; call restart to trigger isActive below
+      timer.restart();
     }
 
     void loop() {
       if(timer.isActive()) {
-        // number of ms timer has been running
+        // return number of milliseconds timer has been running
         timer.getRelativeValue();
       }
     }
@@ -119,7 +123,9 @@ Returns how much time has passed as a percentage of the total interval. If the i
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(1000);
+      timer.setTimeout(1000);
+      // timer starts expired; call restart to trigger isActive below
+      timer.restart();
     }
 
     void loop() {
@@ -137,7 +143,9 @@ Returns the inverse of how much time has passed as a percentage of the total int
 
     void setup() {
       // set the initial timeout
-      timer.setInterval(1000);
+      timer.setTimeout(1000);
+      // timer starts expired; call restart to trigger isActive below
+      timer.restart();
     }
 
     void loop() {
