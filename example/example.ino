@@ -5,8 +5,8 @@
 // include the library
 #include <Timer.h>
 
-// connect to the serial port via 11500 baud
-#define BAUD 11500
+// serial port baud rate
+#define BAUD 115200
 
 // create two instances of Timer
 Timer one_second_timer;
