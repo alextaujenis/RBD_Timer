@@ -18,7 +18,7 @@ bool Timer::isActive() {
 }
 
 bool Timer::isExpired() {
-  return _timeout < getRelativeValue();
+  return _timeout <= getRelativeValue();
 }
 
 unsigned long Timer::getRelativeValue() {
