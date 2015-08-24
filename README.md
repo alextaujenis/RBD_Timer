@@ -12,7 +12,7 @@ This library works with relative time instead of absolute. This means there will
 0. Install this Arduino Library by copying it to your libraries folder
 0. Compile and load the [example.ino](https://github.com/alextaujenis/Timer/blob/master/example/example.ino) to the Arduino
 0. Open the Serial prompt at 115200 BAUD
-0. Watch a non-blocking clock tick by at two independent intervals
+0. Watch two independent timers report their status
 
 
 #Documentation

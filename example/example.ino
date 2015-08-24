@@ -1,48 +1,48 @@
-// Arduino Timer Example - A non-blocking clock that counts half seconds with two independent intervals
+// Arduino Timer Example - Two independent timers reporting operational status to the serial port
 // Copyright 2015 Alex Taujenis
 // MIT License
 
-// include the library
 #include <Timer.h>
 
-// serial port baud rate
 #define BAUD 115200
+bool rising = true;
 
-// create two instances of Timer
-Timer one_second_timer;
-Timer half_second_timer;
-
-// local variables for tracking time
-unsigned long count = 0;
-bool flip_flop = true;
+Timer timer1;
+Timer timer2;
 
 void setup() {
   Serial.begin(BAUD);
-  // set the timeout for both timers; this can also be changed during runtime inside of loop()
-  one_second_timer.setTimeout(1000);
-  half_second_timer.setTimeout(500);
+  timer1.setTimeout(3000);
+  timer2.setTimeout(1000);
+  timer1.restart();
+  timer2.restart();
 }
 
 void loop() {
-  // run the one second timer in real-time and only take action if it is expired
-  if(one_second_timer.isExpired()) {
-    // keep timing
-    one_second_timer.restart();
-    // increment the seconds
-    Serial.println(count++);
+  updateTimer1();
+  updateTimer2();
+}
+
+void updateTimer1() {
+  if(timer1.isExpired()) {
+    timer1.restart();
+    Serial.println("#####################################");
+    Serial.println("######## THREE SECONDS PASSED #######");
+    Serial.println("#####################################");
   }
+}
 
-  // run the half second timer in real-time and only take action if it is expired
-  if(half_second_timer.isExpired()) {
-    // keep timing
-    half_second_timer.restart();
-
-    // only print half-seconds when they are .5
-    if(flip_flop) {
-      Serial.print(count - 1);
-      Serial.print(".");
-      Serial.println(5);
+void updateTimer2() {
+  if(timer2.isActive()) {
+    if(rising) {
+      Serial.println(timer2.getPercentValue());
     }
-    flip_flop = !flip_flop;
+    else {
+      Serial.println(timer2.getInversePercentValue());
+    }
+  }
+  else {
+    timer2.restart();
+    rising = !rising;
   }
 }
