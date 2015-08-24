@@ -1,10 +1,12 @@
 # Arduino Timer Library
-Never write delay() or millis() again! This is a high-level foundation for managing many concurrent timed events.
+Never write delay() or millis() again! This is a high-level foundation for managing many concurrent timed events. This library also handles Arduino timer rollover correctly.
 
 
 #Why?
 The Arduino real-time loop stops advancing when you write delay() in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage. The Timer class is a very simple replacement for all your millis() math.
 
+#Relative vs. Absolute Time
+This library works with relative time instead of absolute. This means there will be a few microseconds of time loss between cycles if you want to run something (for example) precisely every 5 minutes. This library is better suited for managing immediate program flow, (for example) like starting a timer and using it's reported percentage to dim an LED over the course of 1 second. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
 
 #Example Sketch
 0. Install this Arduino Library by copying it to your libraries folder
