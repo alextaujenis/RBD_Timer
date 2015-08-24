@@ -167,4 +167,4 @@ Returns the inverse of how much time has passed as a percentage of the total int
     }
 
 #License
-This code is avaliable under the [MIT License](http://opensource.org/licenses/mit-license.php).
+This code is available under the [MIT License](http://opensource.org/licenses/mit-license.php).
