@@ -6,7 +6,7 @@ Never write delay() or millis() again! This is a high-level foundation for manag
 The Arduino real-time loop stops advancing when you write delay() in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage. The Timer class is a very simple replacement for all your millis() math.
 
 #Relative vs. Absolute Time
-This library works with relative time instead of absolute. This means there will be a few microseconds of time loss between cycles if you want to run something (for example) precisely every 5 minutes. This library is better suited for managing immediate program flow, (for example) like starting a timer and using it's reported percentage to dim an LED over the course of 1 second. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
+This library works with relative time instead of absolute. This means there will be a few microseconds of time loss between cycles if you want to run something (for example) precisely every 5 minutes. This library is better suited for managing immediate program flow, (for example) like starting a timer and using the reported percentage to dim an LED over the course of 1 second. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
 
 #Example Sketch
 0. Install this Arduino Library by copying it to your libraries folder
@@ -148,7 +148,7 @@ Returns how many milliseconds left until the end of the timer.
     }
 
 ##getPercentValue()
-Returns how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 25.0
+Returns how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 0.25
 
     #include <Timer.h>
     Timer timer;
@@ -168,7 +168,7 @@ Returns how much time has passed as a percentage of the total interval. If the i
     }
 
 ##getInversePercentValue()
-Returns the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 75.0
+Returns the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 0.75
 
     #include <Timer.h>
     Timer timer;
