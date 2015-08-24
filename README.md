@@ -61,6 +61,7 @@ This library is **better suited for managing immediate program flow** over relat
 #Documentation
 
 ##Public Methods
+* [constructor()](https://github.com/alextaujenis/Timer#constructor)
 * [setTimeout(unsigned long)](https://github.com/alextaujenis/Timer#settimeoutunsigned-long)
 * [restart()](https://github.com/alextaujenis/Timer#restart)
 * [isActive()](https://github.com/alextaujenis/Timer#isactive)
@@ -70,29 +71,50 @@ This library is **better suited for managing immediate program flow** over relat
 * [getPercentValue()](https://github.com/alextaujenis/Timer#getpercentvalue)
 * [getInversePercentValue()](https://github.com/alextaujenis/Timer#getinversepercentvalue)
 
+##constructor()
+Create a new timer instance.
+
+    Timer timer;
+
 ##setTimeout(value)
-Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup(), and/or called at runtime to change the value on the fly.
+Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup() or called at runtime to change the value on the fly.
+
+    timer.setTimeout(5000);
 
 ##restart()
 There are no start() or stop() methods. All you need to do is restart() the timer when you want to use it.
 
+    timer.restart();
+
 ##isActive()
 Returns true if time is available.
+
+    timer.isActive();
 
 ##isExpired()
 Returns true if time has run out.
 
+    timer.isExpired();
+
 ##getValue()
 Returns an unsigned long of how many milliseconds that have passed since the start of the timer.
+
+    timer.getValue();
 
 ##getInverseValue()
 Returns an unsigned long of how many milliseconds left until the end of the timer.
 
+    timer.getInverseValue();
+
 ##getPercentValue()
 Returns an integer from 0 - 100 of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 25.
 
+    timer.getPercentValue();
+
 ##getInversePercentValue()
 Returns an integer from 100 - 0 of the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 75.
+
+    timer.getInversePercentValue();
 
 #License
 This code is available under the [MIT License](http://opensource.org/licenses/mit-license.php).
