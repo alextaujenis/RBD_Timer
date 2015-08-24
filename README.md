@@ -148,7 +148,7 @@ Returns how many milliseconds left until the end of the timer.
     }
 
 ##getPercentValue()
-Returns how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 0.25
+Returns how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 25
 
     #include <Timer.h>
     Timer timer;
@@ -168,7 +168,7 @@ Returns how much time has passed as a percentage of the total interval. If the i
     }
 
 ##getInversePercentValue()
-Returns the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 0.75
+Returns the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 75
 
     #include <Timer.h>
     Timer timer;

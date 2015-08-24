@@ -29,10 +29,10 @@ unsigned long Timer::getInverseValue() {
   return _timeout - getValue();
 }
 
-float Timer::getPercentValue() {
-  return getValue() / float(_timeout);
+int Timer::getPercentValue() {
+  return int(getValue() / float(_timeout) * 100);
 }
 
-float Timer::getInversePercentValue() {
-  return 1 - getPercentValue();
+int Timer::getInversePercentValue() {
+  return 100 - getPercentValue();
 }
