@@ -62,7 +62,7 @@ This library is **better suited for managing immediate program flow** over relat
 
 ##Public Methods
 * [constructor()](https://github.com/alextaujenis/Timer#constructor)
-* [setTimeout(unsigned long)](https://github.com/alextaujenis/Timer#settimeoutunsigned-long)
+* [setTimeout(value)](https://github.com/alextaujenis/Timer#settimeoutvalue)
 * [restart()](https://github.com/alextaujenis/Timer#restart)
 * [isActive()](https://github.com/alextaujenis/Timer#isactive)
 * [isExpired()](https://github.com/alextaujenis/Timer#isexpired)
@@ -77,7 +77,7 @@ Create a new timer instance.
     Timer timer;
 
 ##setTimeout(value)
-Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup() or called at runtime to change the value on the fly.
+Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup() or also inside of loop() to change the value at runtime.
 
     timer.setTimeout(5000);
 
