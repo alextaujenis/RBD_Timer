@@ -61,15 +61,15 @@ This library is **better suited for managing immediate program flow** over relat
 #Documentation
 
 ##Public Methods
-* [constructor()](https://github.com/alextaujenis/Timer#constructor)
-* [setTimeout(value)](https://github.com/alextaujenis/Timer#settimeoutvalue)
-* [restart()](https://github.com/alextaujenis/Timer#restart)
-* [isActive()](https://github.com/alextaujenis/Timer#isactive)
-* [isExpired()](https://github.com/alextaujenis/Timer#isexpired)
-* [getValue()](https://github.com/alextaujenis/Timer#getvalue)
-* [getInverseValue()](https://github.com/alextaujenis/Timer#getinversevalue)
-* [getPercentValue()](https://github.com/alextaujenis/Timer#getpercentvalue)
-* [getInversePercentValue()](https://github.com/alextaujenis/Timer#getinversepercentvalue)
+* [constructor()](#constructor)
+* [setTimeout(value)](#settimeoutvalue)
+* [restart()](#restart)
+* [isActive()](#isactive)
+* [isExpired()](#isexpired)
+* [getValue()](#getvalue)
+* [getInverseValue()](#getinversevalue)
+* [getPercentValue()](#getpercentvalue)
+* [getInversePercentValue()](#getinversepercentvalue)
 
 ##constructor()
 Create a new timer instance.
