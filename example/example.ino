@@ -26,20 +26,14 @@ void loop() {
 void updateTimer1() {
   if(timer1.isExpired()) {
     timer1.restart();
-    Serial.println("#####################################");
-    Serial.println("######## THREE SECONDS PASSED #######");
-    Serial.println("#####################################");
+    Serial.println("THREE SECONDS PASSED");
   }
 }
 
 void updateTimer2() {
   if(timer2.isActive()) {
-    if(rising) {
-      Serial.println(timer2.getPercentValue());
-    }
-    else {
-      Serial.println(timer2.getInversePercentValue());
-    }
+    if(rising) { Serial.println(timer2.getPercentValue()); }
+    else { Serial.println(timer2.getInversePercentValue()); }
   }
   else {
     timer2.restart();
