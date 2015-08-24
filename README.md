@@ -22,7 +22,8 @@ This library works with relative time instead of absolute. This means there will
 * [restart()](https://github.com/alextaujenis/Timer#restart)
 * [isActive()](https://github.com/alextaujenis/Timer#isactive)
 * [isExpired()](https://github.com/alextaujenis/Timer#isexpired)
-* [getRelativeValue()](https://github.com/alextaujenis/Timer#getrelativevalue)
+* [getValue()](https://github.com/alextaujenis/Timer#getvalue)
+* [getInverseValue()](https://github.com/alextaujenis/Timer#getinversevalue)
 * [getPercentValue()](https://github.com/alextaujenis/Timer#getpercentvalue)
 * [getInversePercentValue()](https://github.com/alextaujenis/Timer#getinversepercentvalue)
 
@@ -106,7 +107,7 @@ Returns true if time has run out.
       }
     }
 
-##getRelativeValue()
+##getValue()
 Returns how many milliseconds that have passed since the start of the timer.
 
     #include <Timer.h>
@@ -122,7 +123,27 @@ Returns how many milliseconds that have passed since the start of the timer.
     void loop() {
       if(timer.isActive()) {
         // return number of milliseconds timer has been running
-        timer.getRelativeValue();
+        timer.getValue();
+      }
+    }
+
+##getInverseValue()
+Returns how many milliseconds left until the end of the timer.
+
+    #include <Timer.h>
+    Timer timer;
+
+    void setup() {
+      // set the initial timeout
+      timer.setTimeout(1000);
+      // timer starts expired; call restart to trigger isActive below
+      timer.restart();
+    }
+
+    void loop() {
+      if(timer.isActive()) {
+        // return number of milliseconds timer has until finished
+        timer.getInverseValue();
       }
     }
 

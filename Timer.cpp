@@ -14,19 +14,23 @@ void Timer::restart() {
 }
 
 bool Timer::isActive() {
-  return _timeout > getRelativeValue();
+  return _timeout > getValue();
 }
 
 bool Timer::isExpired() {
-  return _timeout <= getRelativeValue();
+  return _timeout <= getValue();
 }
 
-unsigned long Timer::getRelativeValue() {
+unsigned long Timer::getValue() {
   return millis() - _waypoint;
 }
 
+unsigned long Timer::getInverseValue() {
+  return _timeout - getValue();
+}
+
 float Timer::getPercentValue() {
-  return getRelativeValue() / float(_timeout);
+  return getValue() / float(_timeout);
 }
 
 float Timer::getInversePercentValue() {

@@ -13,9 +13,10 @@ class Timer {
     void restart();                       // reset and start the timer
     bool isActive();                      // check if time is left
     bool isExpired();                     // check if the time has run out
-    unsigned long getRelativeValue();     // how many milliseconds that have passed since the start of the timer
+    unsigned long getValue();             // how many milliseconds that have passed since the start of the timer
+    unsigned long getInverseValue();      // how many milliseconds the timer has until finished
     float getPercentValue();              // how much time has passed as a percentage of the interval
-    float getInversePercentValue();       // inverse of how much time has passed as a percentage of the interval
+    float getInversePercentValue();       // how much time is left as a percentage of the interval
   private:
     unsigned long _timeout;   // how long this timer should run for
     unsigned long _waypoint;  // the point in time the timer was started or reset
