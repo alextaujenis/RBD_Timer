@@ -6,7 +6,7 @@ Never write delay() or millis() again! This is a high-level foundation for manag
 The Arduino real-time loop stops advancing when you write delay() in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage. The Timer class is a very simple replacement for all your millis() math.
 
 ##Relative vs. Absolute Time
-This library works well with relative time instead of absolute. Absolute timing (for example) of running on an **interval of precisely 5 minutes** would incure a **few microseconds of time loss** each cycle. You can get a _pretty close_ interval by restarting the timer immediately if you don't mind losing one second every few hundred timeout cycles.
+This library works well with relative time instead of absolute. Absolute timing (for example) of running on an **interval of precisely 5 minutes** would incure a **few microseconds of time loss** each cycle. You can get a _pretty close_ interval by restarting the timer immediately if you don't mind losing one second every few hundred-thousand timeout cycles.
 
 This library is **better suited for managing immediate program flow** over relative time, (for example) like starting a timer and using the reported percentage to dim an LED **over the course of 1 second**. It will not lose any time during the active cycle. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
 
