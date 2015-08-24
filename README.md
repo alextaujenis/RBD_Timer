@@ -2,17 +2,17 @@
 Never write delay() or millis() again! This is a high-level foundation for managing many concurrent timed events. This library also handles Arduino timer rollover correctly.
 
 
-#Why?
+##Why?
 The Arduino real-time loop stops advancing when you write delay() in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage. The Timer class is a very simple replacement for all your millis() math.
 
-#Relative vs. Absolute Time
-This library works with relative time instead of absolute. This means there will be a few microseconds of time loss between cycles if you want to run something (for example) precisely every 5 minutes.
+##Relative vs. Absolute Time
+This library works well with relative time instead of absolute. Absolute timing (for example) of running on an **interval of precisely 5 minutes** would incure a **few microseconds of time loss** each cycle. You can get a _pretty close_ interval by restarting the timer immediately if you don't mind losing one second every few hundred timeout cycles.
 
-This library is better suited for managing immediate program flow, (for example) like starting a timer and using the reported percentage to dim an LED over the course of 1 second. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
+This library is **better suited for managing immediate program flow** over relative time, (for example) like starting a timer and using the reported percentage to dim an LED **over the course of 1 second**. It will not lose any time during the active cycle. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
 
 #Example Setup
 0. Install this library and load the example sketch on to an Arduino
-0. Open the Serial prompt at 115200 BAUD
+0. Open a serial connection at 115200 BAUD
 0. Watch two independent timers report their status
 
 ##[example.ino](https://github.com/alextaujenis/Timer/blob/master/example/example.ino)
@@ -70,8 +70,8 @@ This library is better suited for managing immediate program flow, (for example)
 * [getPercentValue()](https://github.com/alextaujenis/Timer#getpercentvalue)
 * [getInversePercentValue()](https://github.com/alextaujenis/Timer#getinversepercentvalue)
 
-##setTimeout(unsigned long)
-Change how long the timer will run (in milliseconds). This can be done inside of setup(), and/or called at runtime to change the value on the fly.
+##setTimeout(value)
+Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup(), and/or called at runtime to change the value on the fly.
 
 ##restart()
 There are no start() or stop() methods. All you need to do is restart() the timer when you want to use it.
@@ -83,16 +83,16 @@ Returns true if time is available.
 Returns true if time has run out.
 
 ##getValue()
-Returns how many milliseconds that have passed since the start of the timer.
+Returns an unsigned long of how many milliseconds that have passed since the start of the timer.
 
 ##getInverseValue()
-Returns how many milliseconds left until the end of the timer.
+Returns an unsigned long of how many milliseconds left until the end of the timer.
 
 ##getPercentValue()
-Returns how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 25
+Returns an integer from 0 - 100 of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 25.
 
 ##getInversePercentValue()
-Returns the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 75
+Returns an integer from 100 - 0 of the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 75.
 
 #License
 This code is available under the [MIT License](http://opensource.org/licenses/mit-license.php).
