@@ -7,6 +7,7 @@
 
 void Timer::setTimeout(unsigned long value) {
   _timeout = value;
+  _waypoint = millis() - _timeout;
 }
 
 void Timer::restart() {
