@@ -18,8 +18,9 @@ class Timer {
     int getPercentValue();                // how much time has passed as a percentage of the interval
     int getInversePercentValue();         // how much time is left as a percentage of the interval
   private:
-    unsigned long _timeout;   // how long this timer should run for
-    unsigned long _waypoint;  // the point in time the timer was started or reset
+    unsigned long _timeout;               // how long this timer should run for
+    unsigned long _waypoint;              // the point in time the timer was started or reset
+    unsigned long _active = false;        // initialize a dead timer
 };
 
 #endif

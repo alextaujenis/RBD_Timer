@@ -7,19 +7,19 @@
 
 void Timer::setTimeout(unsigned long value) {
   _timeout = value;
-  _waypoint = millis() - _timeout;
 }
 
 void Timer::restart() {
   _waypoint = millis();
+  _active   = true;
 }
 
 bool Timer::isActive() {
-  return _timeout > getValue();
+  return _timeout > getValue() && _active;
 }
 
 bool Timer::isExpired() {
-  return _timeout <= getValue();
+  return _timeout <= getValue() || !_active;
 }
 
 unsigned long Timer::getValue() {
