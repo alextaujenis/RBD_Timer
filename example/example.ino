@@ -13,7 +13,7 @@ Timer timer2;
 void setup() {
   Serial.begin(BAUD);
   timer1.setTimeout(3000);
-  timer2.setTimeout(1000);
+  timer2.setHertz(1);
   timer1.restart();
   timer2.restart();
 }

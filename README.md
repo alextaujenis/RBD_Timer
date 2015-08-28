@@ -28,7 +28,7 @@ This library is **better suited for managing immediate program flow** over relat
     void setup() {
       Serial.begin(BAUD);
       timer1.setTimeout(3000);
-      timer2.setTimeout(1000);
+      timer2.setHertz(1);
       timer1.restart();
       timer2.restart();
     }
@@ -63,6 +63,7 @@ This library is **better suited for managing immediate program flow** over relat
 ##Public Methods
 * [constructor()](#constructor)
 * [setTimeout(value)](#settimeoutvalue)
+* [setHertz(value)](#sethertzvalue)
 * [restart()](#restart)
 * [isActive()](#isactive)
 * [isExpired()](#isexpired)
@@ -77,9 +78,19 @@ Create a new timer instance.
     Timer timer;
 
 ##setTimeout(value)
-Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup() or also inside of loop() to change the value at runtime.
+Provide an unsigned long value to change how long the timer will run (in milliseconds). This will override any value given to [setHertz()](#sethertz). This can be done inside of setup() or also inside of loop() to change the value at runtime.
 
-    timer.setTimeout(5000);
+    timer.setTimeout(5000); // expire after 5 seconds
+
+##setHertz(value)
+Provide an integer greater than 0 and up to 1000 to set approximately how many times you can fire an event in one second. This will override any value given to [setTimeout()](#settimeout). You can call this method inside of setup() or also inside of loop() to change the value at runtime.
+
+    timer.setHertz(5);  // expire after 200ms
+
+    if(timer.isExpired()) {
+      // events fired here are close to 5Hz
+      timer.restart();
+    }
 
 ##restart()
 There are no start() or stop() methods. All you need to do is restart() the timer when you want to use it.

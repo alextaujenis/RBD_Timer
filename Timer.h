@@ -9,7 +9,8 @@
 
 class Timer {
   public:
-    void setTimeout(unsigned long value); // set/change how long the timer will run
+    void setTimeout(unsigned long value); // set/change how long until the timer expires in milliseconds
+    void setHertz(int value);             // set/change how many times the timer can be restarted in one second
     void restart();                       // reset and start the timer
     bool isActive();                      // check if time is left
     bool isExpired();                     // check if the time has run out
@@ -20,7 +21,7 @@ class Timer {
   private:
     unsigned long _timeout;               // how long this timer should run for
     unsigned long _waypoint;              // the point in time the timer was started or reset
-    unsigned long _active = false;        // initialize a dead timer
+    bool _active = false;                 // initialize a dead timer
 };
 
 #endif
