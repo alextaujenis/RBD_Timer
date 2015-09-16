@@ -1,14 +1,14 @@
-// Arduino Timer Example - Two independent timers reporting operational status to the serial port
+// Arduino RBD Timer Example - Two independent timers reporting operational status to the serial port
 // Copyright 2015 Alex Taujenis
 // MIT License
 
-#include <Timer.h>
+#include <RBD_Timer.h>
 
 #define BAUD 115200
 bool rising = true;
 
-Timer timer1;
-Timer timer2;
+RBD::Timer timer1;
+RBD::Timer timer2;
 
 void setup() {
   Serial.begin(BAUD);

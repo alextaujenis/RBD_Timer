@@ -15,15 +15,15 @@ This library is **better suited for managing immediate program flow** over relat
 0. Open a serial connection at 115200 BAUD
 0. Watch two independent timers report their status
 
-##[example.ino](https://github.com/alextaujenis/Timer/blob/master/example/example.ino)
+##[example.ino](https://github.com/alextaujenis/RBD_Timer/blob/master/example/example.ino)
 
-    #include <Timer.h>
+    #include <RBD_Timer.h>
 
     #define BAUD 115200
     bool rising = true;
 
-    Timer timer1;
-    Timer timer2;
+    RBD::Timer timer1;
+    RBD::Timer timer2;
 
     void setup() {
       Serial.begin(BAUD);
@@ -75,7 +75,7 @@ This library is **better suited for managing immediate program flow** over relat
 ##constructor()
 Create a new timer instance.
 
-    Timer timer;
+    RBD::Timer timer;
 
 ##setTimeout(value)
 Provide an unsigned long value to change how long the timer will run (in milliseconds). This will override any value given to [setHertz()](#sethertz). This can be done inside of setup() or also inside of loop() to change the value at runtime.
