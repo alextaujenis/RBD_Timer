@@ -78,12 +78,12 @@ Create a new timer instance.
     RBD::Timer timer;
 
 ##setTimeout(value)
-Provide an unsigned long value to change how long the timer will run (in milliseconds). This will override any value given to [setHertz()](#sethertz). This can be done inside of setup() or also inside of loop() to change the value at runtime.
+Provide an unsigned long value to change how long the timer will run (in milliseconds). This will override any value given to [setHertz()](#sethertzvalue). This can be done inside of setup() or also inside of loop() to change the value at runtime.
 
     timer.setTimeout(5000); // expire after 5 seconds
 
 ##setHertz(value)
-Provide an integer greater than 0 and up to 1000 to set approximately how many times you can fire an event in one second. This will override any value given to [setTimeout()](#settimeout). You can call this method inside of setup() or also inside of loop() to change the value at runtime.
+Provide an integer greater than 0 and up to 1000 to set approximately how many times you can fire an event in one second. This will override any value given to [setTimeout()](#settimeoutvalue). You can call this method inside of setup() or also inside of loop() to change the value at runtime.
 
     timer.setHertz(5);  // expire after 200ms
 
