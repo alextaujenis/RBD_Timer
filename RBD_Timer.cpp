@@ -21,6 +21,14 @@ namespace RBD {
     _active   = true;
   }
 
+  bool Timer::isActive() {
+    return _timeout > getValue() && _active;
+  }
+
+  bool Timer::isExpired() {
+    return _timeout <= getValue() || !_active;
+  }
+
   bool Timer::onRestart() {
     if(isActive()) {
       return false;
@@ -31,12 +39,32 @@ namespace RBD {
     }
   }
 
-  bool Timer::isActive() {
-    return _timeout > getValue() && _active;
+  bool Timer::onActive() {
+    if(isActive()) {
+      if(!_has_been_active) {
+        _has_been_active = true;
+        return true;
+      }
+      return false;
+    }
+    else {
+      _has_been_active = false;
+      return false;
+    }
   }
 
-  bool Timer::isExpired() {
-    return _timeout <= getValue() || !_active;
+  bool Timer::onExpired() {
+    if(isExpired()) {
+      if(!_has_been_expired) {
+        _has_been_expired = true;
+        return true;
+      }
+      return false;
+    }
+    else {
+      _has_been_expired = false;
+      return false;
+    }
   }
 
   unsigned long Timer::getValue() {

@@ -13,9 +13,11 @@ namespace RBD {
       void setTimeout(unsigned long value); // set/change how long until the timer expires in milliseconds
       void setHertz(int value);             // set/change how many times the timer can be restarted in one second
       void restart();                       // reset and start the timer
-      bool onRestart();                     // returns true if the timer is expired and restarts the timer automatically
       bool isActive();                      // check if time is left
       bool isExpired();                     // returns true if time has run out
+      bool onRestart();                     // returns true if the timer is expired and restarts the timer automatically
+      bool onActive();
+      bool onExpired();
       unsigned long getValue();             // how many milliseconds that have passed since the start of the timer
       unsigned long getInverseValue();      // how many milliseconds the timer has until finished
       int getPercentValue();                // how much time has passed as a percentage of the interval
@@ -24,6 +26,8 @@ namespace RBD {
       unsigned long _timeout;               // how long this timer should run for
       unsigned long _waypoint;              // the point in time the timer was started or reset
       bool _active = false;                 // initialize a dead timer
+      bool _has_been_active  = false;
+      bool _has_been_expired = false;
   };
 }
 #endif
