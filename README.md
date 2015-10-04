@@ -23,24 +23,20 @@ This library is **better suited for managing immediate program flow** over relat
 
     void setup() {
       Serial.begin(BAUD);
+
       timer1.setTimeout(3000);
-      timer2.setHertz(1);
       timer1.restart();
+
+      timer2.setHertz(1);
       timer2.restart();
     }
 
     void loop() {
-      updateTimer1();
-      updateTimer2();
-    }
 
-    void updateTimer1() {
       if(timer1.onRestart()) {
         Serial.println("THREE SECONDS PASSED");
       }
-    }
 
-    void updateTimer2() {
       if(timer2.isActive()) {
         if(rising) { Serial.println(timer2.getPercentValue()); }
         else { Serial.println(timer2.getInversePercentValue()); }
@@ -50,8 +46,6 @@ This library is **better suited for managing immediate program flow** over relat
         rising = !rising;
       }
     }
-
-
 
 #Documentation
 
