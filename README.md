@@ -1,8 +1,4 @@
 # Arduino Timer Library
-Never write delay() or millis() again! This is a high-level foundation for managing many concurrent timed events. This library also handles Arduino timer rollover correctly.
-
-
-##Why?
 The Arduino real-time loop stops advancing when you write delay() in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage. The Timer class is a very simple replacement for all your millis() math.
 
 ##Relative vs. Absolute Time
@@ -64,9 +60,11 @@ This library is **better suited for managing immediate program flow** over relat
 * [setTimeout(value)](#settimeoutvalue)
 * [setHertz(value)](#sethertzvalue)
 * [restart()](#restart)
-* [onRestart()](#onrestart)
 * [isActive()](#isactive)
 * [isExpired()](#isexpired)
+* [onRestart()](#onrestart)
+* [onActive()](#onactive)
+* [onExpired()](#onexpired)
 * [getValue()](#getvalue)
 * [getInverseValue()](#getinversevalue)
 * [getPercentValue()](#getpercentvalue)
@@ -77,61 +75,122 @@ Create a new timer instance.
 
     RBD::Timer timer;
 
-##setTimeout(value)
-Provide an unsigned long value to change how long the timer will run (in milliseconds). This will override any value given to [setHertz()](#sethertzvalue). This can be done inside of setup() or also inside of loop() to change the value at runtime.
+    void setup() {
+      ...
+    }
 
-    timer.setTimeout(5000); // expire after 5 seconds
+##setTimeout(value)
+Provide an unsigned long value to change how long the timer will run (in milliseconds). This can be done inside of setup() or also inside of loop() to change the value at runtime. This will override any value given to [setHertz()](#sethertzvalue).
+
+    void setup() {
+      timer.setTimeout(200);  // expire after 200ms
+    }
+
+    void loop() {
+      if(timer.isExpired()) {
+        // returns true after 200ms
+      }
+    }
 
 ##setHertz(value)
-Provide an integer greater than 0 and up to 1000 to set approximately how many times you can fire an event in one second. This will override any value given to [setTimeout()](#settimeoutvalue). You can call this method inside of setup() or also inside of loop() to change the value at runtime.
+Provide an integer from 1 - 1000 to set approximately how many times the timer will restart in one second. This can be done inside of setup() or also inside of loop() to change the value at runtime. This will override any value given to [setTimeout()](#settimeoutvalue).
 
-    timer.setHertz(5);  // expire after 200ms
+    void setup() {
+      timer.setHertz(5);  // expire after 200ms
+    }
 
-    if(timer.onRestart()) {
-      // events fired here are close to 5Hz
+    void loop() {
+      if(timer.onRestart()) {
+        // events fired here are close to 5Hz
+      }
     }
 
 ##restart()
-There are no start() or stop() methods. All you need to do is restart() the timer when you want to use it.
+There are no start or stop methods. All you need to do is restart the timer when you want to use it. When you first initialize the timer; it will always start expired. This can be used with [isExpired()](#isexpired) to create a continuous loop. If you would like a tighter time loop that doesn't wait for your code to run in order to restart the timer, then use [onRestart()](#onrestart) instead.
 
-    timer.restart();
-
-##onRestart()
-This method will fire a single event and restart the timer each time it expires, mimicking the same process of creating a loop by calling [isExpired()](#isexpired) and [restart()](#restart) together.
-
-    if(timer.onRestart()) {
-      // run code once per cycle
+    void loop() {
+      if(timer.isExpired()) {
+        timer.restart();
+      }
     }
 
 ##isActive()
-Returns true if time is available.
+Returns true if time is available. Use this method with [getPercentValue()](#getpercentvalue) or [getInversePercentValue()](#getinversepercentvalue) to perform real-time actions tweened over time.
 
-    timer.isActive();
+    void loop() {
+      if(timer.isActive()) {
+        Serial.println(timer.getPercentValue());
+      }
+    }
 
 ##isExpired()
-Returns true if time has run out.
+Returns true if time has run out. This can be used for a single non-blocking delay, or it can be used with [restart()](#restart) to create a continuous loop that you restart when an action has completed. If you would like a tighter time loop that doesn't wait for your code to run in order to restart the timer, then use [onRestart()](#onrestart) instead.
 
-    timer.isExpired();
+    void loop() {
+      if(timer.isExpired()) {
+        // run code here and restart when finished
+        timer.restart();
+      }
+    }
+
+##onRestart()
+This method will fire a single event and restart the timer each time it expires, mimicking the same process of creating a loop by calling [isExpired()](#isexpired) and [restart()](#restart) together, but with a simple syntax and a tighter time loop.
+
+    void loop() {
+      if(timer.onRestart()) {
+        // code block runs once per restart
+        Serial.println("Timer Restarted");
+      }
+    }
+
+##onActive()
+This method will fire a single event when the timer goes active. The timer must expire and then be restarted for this event to fire again.
+
+    void loop() {
+      if(timer.onActive()) {
+        // code block runs once per active event
+        Serial.println("Timer Active");
+      }
+    }
+
+##onExpired()
+This method will fire a single event when the timer expires. The timer must be restarted and then allowed to expire for this event to fire again.
+
+    void loop() {
+      if(timer.onExpired()) {
+        // code block runs once per event
+        Serial.println("Timer Expired");
+      }
+    }
+
 
 ##getValue()
 Returns an unsigned long of how many milliseconds that have passed since the start of the timer.
 
-    timer.getValue();
+    void loop() {
+      Serial.println(timer.getValue());
+    }
 
 ##getInverseValue()
 Returns an unsigned long of how many milliseconds left until the end of the timer.
 
-    timer.getInverseValue();
+    void loop() {
+      Serial.println(timer.getInverseValue());
+    }
 
 ##getPercentValue()
 Returns an integer from 0 - 100 of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 25.
 
-    timer.getPercentValue();
+    void loop() {
+      Serial.println(timer.getPercentValue());
+    }
 
 ##getInversePercentValue()
 Returns an integer from 100 - 0 of the inverse of how much time has passed as a percentage of the total interval. If the interval is 2000ms, and 500ms have passed: this method will return 75.
 
-    timer.getInversePercentValue();
+    void loop() {
+      Serial.println(timer.getInversePercentValue());
+    }
 
 #License
 This code is available under the [MIT License](http://opensource.org/licenses/mit-license.php).
