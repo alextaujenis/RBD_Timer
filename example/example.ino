@@ -24,8 +24,7 @@ void loop() {
 }
 
 void updateTimer1() {
-  if(timer1.isExpired()) {
-    timer1.restart();
+  if(timer1.onRestart()) {
     Serial.println("THREE SECONDS PASSED");
   }
 }

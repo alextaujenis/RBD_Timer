@@ -13,8 +13,9 @@ namespace RBD {
       void setTimeout(unsigned long value); // set/change how long until the timer expires in milliseconds
       void setHertz(int value);             // set/change how many times the timer can be restarted in one second
       void restart();                       // reset and start the timer
+      bool onRestart();                     // returns true if the timer is expired and restarts the timer automatically
       bool isActive();                      // check if time is left
-      bool isExpired();                     // check if the time has run out
+      bool isExpired();                     // returns true if time has run out
       unsigned long getValue();             // how many milliseconds that have passed since the start of the timer
       unsigned long getInverseValue();      // how many milliseconds the timer has until finished
       int getPercentValue();                // how much time has passed as a percentage of the interval

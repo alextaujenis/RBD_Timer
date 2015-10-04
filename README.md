@@ -39,8 +39,7 @@ This library is **better suited for managing immediate program flow** over relat
     }
 
     void updateTimer1() {
-      if(timer1.isExpired()) {
-        timer1.restart();
+      if(timer1.onRestart()) {
         Serial.println("THREE SECONDS PASSED");
       }
     }
@@ -65,6 +64,7 @@ This library is **better suited for managing immediate program flow** over relat
 * [setTimeout(value)](#settimeoutvalue)
 * [setHertz(value)](#sethertzvalue)
 * [restart()](#restart)
+* [onRestart()](#onrestart)
 * [isActive()](#isactive)
 * [isExpired()](#isexpired)
 * [getValue()](#getvalue)
@@ -87,15 +87,21 @@ Provide an integer greater than 0 and up to 1000 to set approximately how many t
 
     timer.setHertz(5);  // expire after 200ms
 
-    if(timer.isExpired()) {
+    if(timer.onRestart()) {
       // events fired here are close to 5Hz
-      timer.restart();
     }
 
 ##restart()
 There are no start() or stop() methods. All you need to do is restart() the timer when you want to use it.
 
     timer.restart();
+
+##onRestart()
+This method will fire a single event and restart the timer each time it expires, mimicking the same process of creating a loop by calling [isExpired()](#isexpired) and [restart()](#restart) together.
+
+    if(timer.onRestart()) {
+      // run code once per cycle
+    }
 
 ##isActive()
 Returns true if time is available.

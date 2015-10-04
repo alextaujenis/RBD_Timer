@@ -21,6 +21,16 @@ namespace RBD {
     _active   = true;
   }
 
+  bool Timer::onRestart() {
+    if(isExpired()) {
+      restart();
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   bool Timer::isActive() {
     return _timeout > getValue() && _active;
   }
