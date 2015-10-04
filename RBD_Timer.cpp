@@ -22,12 +22,12 @@ namespace RBD {
   }
 
   bool Timer::onRestart() {
-    if(isExpired()) {
-      restart();
-      return true;
+    if(isActive()) {
+      return false;
     }
     else {
-      return false;
+      restart();
+      return true;
     }
   }
 
