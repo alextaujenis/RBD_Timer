@@ -1,9 +1,10 @@
-// Arduino RBD Timer - An encapsulation of timing with non-blocking millis and no delay
+// Arduino RBD Timer Library v1.0.0 - Manage many timed events.
+// https://github.com/alextaujenis/RBD_Timer
 // Copyright 2015 Alex Taujenis
 // MIT License
 
 #include <Arduino.h>
-#include <RBD_Timer.h>
+#include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
 
 namespace RBD {
   void Timer::setTimeout(unsigned long value) {

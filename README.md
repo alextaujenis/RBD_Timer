@@ -1,17 +1,19 @@
 # Arduino Timer Library
-The Arduino real-time loop stops advancing when you write delay() in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage. The Timer class is a very simple replacement for all your millis() math.
+The Arduino real-time loop stops advancing when you write delay() or use interrupts in your sketch. You can keep the real-time loop moving by using millis() to track time and create delay, but it's more complicated and soon becomes messy to manage.
 
-##Relative vs. Absolute Time
-This library works well with relative time instead of absolute. Absolute timing (for example) of running on an **interval of precisely 5 minutes** would incure a **few microseconds of time loss** each cycle. You can get a _pretty close_ interval by restarting the timer immediately if you don't mind losing one second every few hundred-thousand timeout cycles.
+This lightweight library manages time the same way you would by setting a waypoint and calculating elapsed millis(). It is a simple replacement to manage your timed events with english instead of math.
 
-This library is **better suited for managing immediate program flow** over relative time, (for example) like starting a timer and using the reported percentage to dim an LED **over the course of 1 second**. It will not lose any time during the active cycle. You should use this timer really hard while it's active, then consider it dead and restart it to use it again.
+##Soft Real-Time
+This library performs in Soft Real-Time, which means that it will mostly stay on time but is allowed to slip if performance is an issue. This could look like a microsecond of time loss when the timer expires but before it is restarted. Or this could look like a busy Arduino loop() where the timer resolution degrades to only fire an event within 25 microseconds of an actual event. (A microsecond is a small fraction of a millisecond).
+
+There are other solutions for Hard Real-Time problems that require exact timing, which cannot slip for any reason. These are consideration when using this timer within a project, but for the most part; performance is awesome and you should use this library.
 
 #Example Setup
 0. Install this library and load the example sketch on to an Arduino
 0. Open a serial connection at 115200 BAUD
-0. Watch two independent timers report their status
+0. Watch an interval timer print to serial every three seconds
 
-##[example.ino](https://github.com/alextaujenis/RBD_Timer/blob/master/example/example.ino)
+**Example Sketch:**
 
     #include <RBD_Timer.h>
 
@@ -33,18 +35,22 @@ This library is **better suited for managing immediate program flow** over relat
 
 ##Public Methods
 * [constructor()](#constructor)
+<hr />
 * [setTimeout(value)](#settimeoutvalue)
 * [setHertz(value)](#sethertzvalue)
-* [restart()](#restart)
-* [isActive()](#isactive)
-* [isExpired()](#isexpired)
-* [onRestart()](#onrestart)
-* [onActive()](#onactive)
-* [onExpired()](#onexpired)
+<hr />
 * [getValue()](#getvalue)
 * [getInverseValue()](#getinversevalue)
 * [getPercentValue()](#getpercentvalue)
 * [getInversePercentValue()](#getinversepercentvalue)
+<hr />
+* [restart()](#restart)
+* [isActive()](#isactive)
+* [isExpired()](#isexpired)
+<hr />
+* [onRestart()](#onrestart)
+* [onActive()](#onactive)
+* [onExpired()](#onexpired)
 
 ##constructor()
 Create a new timer instance.
@@ -81,65 +87,6 @@ Provide an integer from 1 - 1000 to set approximately how many times the timer w
       }
     }
 
-##restart()
-There are no start or stop methods. All you need to do is restart the timer when you want to use it. When you first initialize the timer; it will always start expired. This can be used with [isExpired()](#isexpired) to create a continuous loop. If you would like a tighter time loop that doesn't wait for your code to run in order to restart the timer, then use [onRestart()](#onrestart) instead.
-
-    void loop() {
-      if(timer.isExpired()) {
-        timer.restart();
-      }
-    }
-
-##isActive()
-Returns true if time is available. Use this method with [getPercentValue()](#getpercentvalue) or [getInversePercentValue()](#getinversepercentvalue) to perform real-time actions tweened over time.
-
-    void loop() {
-      if(timer.isActive()) {
-        Serial.println(timer.getPercentValue());
-      }
-    }
-
-##isExpired()
-Returns true if time has run out. This can be used for a single non-blocking delay, or it can be used with [restart()](#restart) to create a continuous loop that you restart when an action has completed. If you would like a tighter time loop that doesn't wait for your code to run in order to restart the timer, then use [onRestart()](#onrestart) instead.
-
-    void loop() {
-      if(timer.isExpired()) {
-        // run code here and restart when finished
-        timer.restart();
-      }
-    }
-
-##onRestart()
-This method will fire a single event and restart the timer each time it expires, mimicking the same process of creating a loop by calling [isExpired()](#isexpired) and [restart()](#restart) together, but with a simple syntax and a tighter time loop.
-
-    void loop() {
-      if(timer.onRestart()) {
-        // code block runs once per restart
-        Serial.println("Timer Restarted");
-      }
-    }
-
-##onActive()
-This method will fire a single event when the timer goes active. The timer must expire and then be restarted for this event to fire again.
-
-    void loop() {
-      if(timer.onActive()) {
-        // code block runs once per active event
-        Serial.println("Timer Active");
-      }
-    }
-
-##onExpired()
-This method will fire a single event when the timer expires. The timer must be restarted and then allowed to expire for this event to fire again.
-
-    void loop() {
-      if(timer.onExpired()) {
-        // code block runs once per event
-        Serial.println("Timer Expired");
-      }
-    }
-
-
 ##getValue()
 Returns an unsigned long of how many milliseconds that have passed since the start of the timer.
 
@@ -166,6 +113,69 @@ Returns an integer from 100 - 0 of the inverse of how much time has passed as a 
 
     void loop() {
       Serial.println(timer.getInversePercentValue());
+    }
+
+##restart()
+There are no start or stop methods. All you need to do is restart the timer when you want to use it. When you first initialize the timer; it will always start expired. This can be used with [isExpired()](#isexpired) to create a continuous loop. If you would like a tighter loop that does not wait for your code to run in order to restart the timer, then use [onRestart()](#onrestart) instead.
+
+    void loop() {
+      if(timer.isExpired()) {
+        // run code here, then restart the timer
+        timer.restart();
+      }
+    }
+
+##isActive()
+Returns true if time is available. Use this method with [getPercentValue()](#getpercentvalue) or [getInversePercentValue()](#getinversepercentvalue) to perform real-time actions tweened over time.
+
+Use [onActive()](#onactive) to only fire a single event when the timer goes active.
+
+    void loop() {
+      if(timer.isActive()) {
+        Serial.println(timer.getPercentValue());
+      }
+    }
+
+##isExpired()
+Returns true if time has run out. This can be used for a single non-blocking delay, or it can be used with [restart()](#restart) to create a continuous loop that you restart when an action has completed.
+
+Use [onExpired()](#onexpired) to fire a single event and not restart the timer right away.
+
+    void loop() {
+      if(timer.isExpired()) {
+        // run code here and restart when finished
+        timer.restart();
+      }
+    }
+
+##onRestart()
+This method will fire a single event and restart the timer each time it expires, mimicking the same process of creating a loop by calling [isExpired()](#isexpired) and [restart()](#restart) together, but with a simple syntax and a tighter time loop.
+
+    void loop() {
+      if(timer.onRestart()) {
+        // code only runs once per event
+        Serial.println("Timer Restarted");
+      }
+    }
+
+##onActive()
+This method will fire a single event when the timer goes active. The timer must expire and then be restarted for this event to fire again.
+
+    void loop() {
+      if(timer.onActive()) {
+        // code only runs once per event
+        Serial.println("Timer Active");
+      }
+    }
+
+##onExpired()
+This method will fire a single event when the timer expires. The timer must be restarted and then allowed to expire for this event to fire again.
+
+    void loop() {
+      if(timer.onExpired()) {
+        // code only runs once per event
+        Serial.println("Timer Expired");
+      }
     }
 
 #License
