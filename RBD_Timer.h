@@ -16,8 +16,8 @@ namespace RBD {
       bool isActive();                      // check if time is left
       bool isExpired();                     // returns true if time has run out
       bool onRestart();                     // returns true if the timer is expired and restarts the timer automatically
-      bool onActive();
-      bool onExpired();
+      bool onActive();                      // returns true once the timer is active, then waits for it to expire and go active again
+      bool onExpired();                     // returns true once the timer is expired, then waits for it to go active and expire again
       unsigned long getValue();             // how many milliseconds that have passed since the start of the timer
       unsigned long getInverseValue();      // how many milliseconds the timer has until finished
       int getPercentValue();                // how much time has passed as a percentage of the interval

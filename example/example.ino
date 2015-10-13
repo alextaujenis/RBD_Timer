@@ -1,37 +1,19 @@
-// Arduino RBD Timer Example - Two independent timers reporting operational status to the serial port
+// Arduino RBD Timer Example - Three second interval timer printing to serial output.
 // Copyright 2015 Alex Taujenis
 // MIT License
 
 #include <RBD_Timer.h>
 
-#define BAUD 115200
-bool rising = true;
-
-RBD::Timer timer1;
-RBD::Timer timer2;
+RBD::Timer timer;
 
 void setup() {
-  Serial.begin(BAUD);
-
-  timer1.setTimeout(3000);
-  timer1.restart();
-
-  timer2.setHertz(1);
-  timer2.restart();
+  Serial.begin(115200);
+  timer.setTimeout(3000);
+  timer.restart();
 }
 
 void loop() {
-
-  if(timer1.onRestart()) {
-    Serial.println("THREE SECONDS PASSED");
-  }
-
-  if(timer2.isActive()) {
-    if(rising) { Serial.println(timer2.getPercentValue()); }
-    else { Serial.println(timer2.getInversePercentValue()); }
-  }
-  else {
-    timer2.restart();
-    rising = !rising;
+  if(timer.onRestart()) {
+    Serial.println("Three seconds passed");
   }
 }

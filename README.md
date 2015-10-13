@@ -15,35 +15,17 @@ This library is **better suited for managing immediate program flow** over relat
 
     #include <RBD_Timer.h>
 
-    #define BAUD 115200
-    bool rising = true;
-
-    RBD::Timer timer1;
-    RBD::Timer timer2;
+    RBD::Timer timer;
 
     void setup() {
-      Serial.begin(BAUD);
-
-      timer1.setTimeout(3000);
-      timer1.restart();
-
-      timer2.setHertz(1);
-      timer2.restart();
+      Serial.begin(115200);
+      timer.setTimeout(3000);
+      timer.restart();
     }
 
     void loop() {
-
-      if(timer1.onRestart()) {
-        Serial.println("THREE SECONDS PASSED");
-      }
-
-      if(timer2.isActive()) {
-        if(rising) { Serial.println(timer2.getPercentValue()); }
-        else { Serial.println(timer2.getInversePercentValue()); }
-      }
-      else {
-        timer2.restart();
-        rising = !rising;
+      if(timer.onRestart()) {
+        Serial.println("Three seconds passed");
       }
     }
 
