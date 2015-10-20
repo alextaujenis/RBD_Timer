@@ -1,7 +1,7 @@
 #Arduino Timer Library v1.0.1
 Manage many timed events.
 
-* [Documentation](https://alextaujenis.github.io/RobotsBigData/compiled/docs-arduino-timer.html)
+* [Documentation](https://alextaujenis.github.io/RobotsBigData/docs-arduino-timer.html)
 * [Project Website](https://alextaujenis.github.io/RobotsBigData/)
 * [Report an Issue](https://github.com/alextaujenis/RBD_Timer/issues/new)*
 
