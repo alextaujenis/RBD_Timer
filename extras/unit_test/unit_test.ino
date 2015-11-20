@@ -3,13 +3,13 @@
 
 RBD::Timer timer;
 
-// describe constructor
+// constructor
   test(constructor_should_begin_expired) {
     assertTrue(timer.isExpired());
     assertFalse(timer.isActive());
   }
 
-// describe setTimeout
+// setTimeout
   test(setTimeout_should_set_the_timeout_in_milliseconds) {
     timer.setTimeout(100);
     timer.restart();
@@ -17,7 +17,7 @@ RBD::Timer timer;
     assertEqual(timer.getInverseValue(), 100);
   }
 
-// describe setHertz
+// setHertz
   test(setHertz_should_set_the_refresh_rate_per_second) {
     timer.setHertz(10);
     timer.restart();
@@ -25,7 +25,7 @@ RBD::Timer timer;
     assertEqual(timer.getInverseValue(), 100);
   }
 
-// describe restart
+// restart
   test(restart_should_make_it_active) {
     timer.setTimeout(1);
     timer.restart();
@@ -34,7 +34,7 @@ RBD::Timer timer;
     assertFalse(timer.isExpired());
   }
 
-// describe isActive
+// isActive
   test(isActive_should_return_true_if_time_is_available) {
     timer.setTimeout(1);
     timer.restart();
@@ -158,7 +158,7 @@ RBD::Timer timer;
     assertEqual(timer.getValue(), 2);
   }
 
-// getInversValue
+// getInverseValue
   test(getInverseValue_should_return_the_time_left_until_timeout) {
     timer.setTimeout(5);
     timer.restart();
