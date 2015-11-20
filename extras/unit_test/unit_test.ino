@@ -1,5 +1,10 @@
-#include <ArduinoUnit.h>
-#include <RBD_Timer.h>
+// Arduino RBD Timer Library v1.0.5 - Unit test coverage.
+// https://github.com/alextaujenis/RBD_Timer
+// Copyright 2015 Alex Taujenis
+// MIT License
+
+#include <ArduinoUnit.h> // https://github.com/mmurdoch/arduinounit
+#include <RBD_Timer.h>   // https://github.com/alextaujenis/RBD_Timer
 
 RBD::Timer timer;
 
@@ -105,12 +110,19 @@ RBD::Timer timer;
     assertFalse(timer.onActive());
   }
 
-// onExpired
-  test(onExpired_should_return_false_if_the_timer_has_not_been_restarted) {
+  test(onActive_should_return_false_on_timer_rollover) {
     timer.setTimeout(1);
-    assertFalse(timer.onExpired());
+    timer.restart();
+
+    assertTrue(timer.onActive());
+    assertFalse(timer.onActive());
+
+    timer.setTimeout(5); // make it active again without calling restart: almost like timer rollover
+
+    assertFalse(timer.onActive());
   }
 
+// onExpired
   test(onExpired_should_return_true_after_the_timer_expires) {
     timer.setTimeout(1);
     timer.restart();
@@ -123,7 +135,21 @@ RBD::Timer timer;
     timer.setTimeout(1);
     timer.restart();
     delay(1);
-    timer.onExpired();
+
+    assertTrue(timer.onExpired());
+    assertFalse(timer.onExpired());
+  }
+
+  test(onExpired_should_return_false_on_timer_rollover) {
+    timer.setTimeout(1);
+    timer.restart();
+    delay(1);
+
+    assertTrue(timer.onExpired());
+    assertFalse(timer.onExpired());
+
+    timer.setTimeout(5); // make it active again without calling restart, then wait for it to expire: almost like timer rollover
+    delay(5);
 
     assertFalse(timer.onExpired());
   }
