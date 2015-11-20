@@ -67,32 +67,21 @@ RBD::Timer timer;
   }
 
 // onRestart
-  testing(onRestart_should_return_true_if_the_timer_expires) {
+  test(onRestart_should_return_true_if_the_timer_expires) {
     timer.setTimeout(1);
     timer.restart();
     delay(1);
 
-    if(timer.onRestart() == true) {
-      pass();
-    }
-    else {
-      fail();
-    }
+    assertTrue(timer.onRestart());
   }
 
-  testing(onRestart_should_return_false_the_second_time_after_the_timer_expires) {
+  test(onRestart_should_return_false_the_second_time_after_the_timer_expires) {
     timer.setTimeout(1);
     timer.restart();
     delay(1);
-
     timer.onRestart();
 
-    if(timer.onRestart() == false) {
-      pass();
-    }
-    else {
-      fail();
-    }
+    assertFalse(timer.onRestart());
   }
 
 // onActive
@@ -101,29 +90,19 @@ RBD::Timer timer;
     assertFalse(timer.onActive());
   }
 
-  testing(onActive_should_return_true_after_the_timer_is_restarted) {
+  test(onActive_should_return_true_after_the_timer_is_restarted) {
     timer.setTimeout(1);
     timer.restart();
 
-    if(timer.onActive() == true) {
-      pass();
-    }
-    else {
-      fail();
-    }
+    assertTrue(timer.onActive());
   }
 
-  testing(onActive_should_return_false_the_second_time_after_the_timer_is_restarted) {
+  test(onActive_should_return_false_the_second_time_after_the_timer_is_restarted) {
     timer.setTimeout(1);
     timer.restart();
     timer.onActive();
 
-    if(timer.onActive() == false) {
-      pass();
-    }
-    else {
-      fail();
-    }
+    assertFalse(timer.onActive());
   }
 
 // onExpired
@@ -144,8 +123,8 @@ RBD::Timer timer;
     timer.setTimeout(1);
     timer.restart();
     delay(1);
-
     timer.onExpired();
+
     assertFalse(timer.onExpired());
   }
 
