@@ -8,9 +8,7 @@
 
 namespace RBD {
   void Timer::setTimeout(unsigned long value) {
-    if(value > 0) {
-      _timeout = value;
-    }
+    if(value > 0) { _timeout = value; }
   }
 
   void Timer::setHertz(int value) {
@@ -35,37 +33,25 @@ namespace RBD {
   }
 
   bool Timer::onRestart() {
-    if(isActive()) {
-      return false;
-    }
-    else {
-      restart();
-      return true;
-    }
+    if(isActive()) { return false; }
+    restart();
+    return true;
   }
 
   bool Timer::onActive() {
     if(isActive()) {
-      if(!_has_been_active) {
-        return _has_been_active = true;
-      }
+      if(!_has_been_active) { return _has_been_active = true; }
       return false;
     }
-    else {
-      return _has_been_active = false;
-    }
+    return _has_been_active = false;
   }
 
   bool Timer::onExpired() {
     if(isExpired()) {
-      if(!_has_been_expired) {
-        return _has_been_expired = true;
-      }
+      if(!_has_been_expired) { return _has_been_expired = true; }
       return false;
     }
-    else {
-      return _has_been_expired = false;
-    }
+    return _has_been_expired = false;
   }
 
   unsigned long Timer::getValue() {
