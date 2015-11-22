@@ -77,12 +77,12 @@ namespace RBD {
     return getValue() / float(_timeout) * 100;
   }
 
+  int Timer::getInversePercentValue() {
+    return 100 - getPercentValue();
+  }
+	
   void Timer::_updateState() {
     if( (_state == ACTIVE) && (getValue() >= _timeout) )
       _state = EXPIRED;
-  }
-
-  int Timer::getInversePercentValue() {
-    return 100 - getPercentValue();
   }
 }
