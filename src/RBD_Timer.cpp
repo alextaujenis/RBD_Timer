@@ -7,8 +7,13 @@
 #include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
 
 namespace RBD {
+
+  Timer::Timer()
+		: _state(EXPIRED) 
+  {}
+
   void Timer::setTimeout(unsigned long value) {
-    if(value > 0) { _timeout = value; }
+		_timeout = (value > 0) ? value : 1;
   }
 
   void Timer::setHertz(int value) {
@@ -19,23 +24,31 @@ namespace RBD {
 
   void Timer::restart() {
     _waypoint         = millis();
-    _active           = true;
+    _state            = ACTIVE;
     _has_been_active  = false;
     _has_been_expired = false;
   }
 
+  void Timer::stop() {
+    _state = INACTIVE;
+  }
+
   bool Timer::isActive() {
-    return _timeout > getValue() && _active;
+    _updateState();
+    return _state == ACTIVE;
   }
 
   bool Timer::isExpired() {
-    return _timeout <= getValue() || !_active;
+    _updateState();
+    return _state == EXPIRED;
   }
 
   bool Timer::onRestart() {
-    if(isActive()) { return false; }
-    restart();
-    return true;
+    if( isExpired() ) {
+      restart();
+      return true;
+    }
+    return false;
   }
 
   bool Timer::onActive() {
@@ -62,6 +75,11 @@ namespace RBD {
 
   int Timer::getPercentValue() {
     return getValue() / float(_timeout) * 100;
+  }
+
+  void Timer::_updateState() {
+    if( (_state == ACTIVE) && (getValue() >= _timeout) )
+      _state = EXPIRED;
   }
 
   int Timer::getInversePercentValue() {
