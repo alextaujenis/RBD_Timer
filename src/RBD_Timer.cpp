@@ -9,11 +9,11 @@
 namespace RBD {
 
   Timer::Timer()
-		: _state(EXPIRED) 
+    : _state(EXPIRED)
   {}
 
   void Timer::setTimeout(unsigned long value) {
-		_timeout = (value > 0) ? value : 1;
+    _timeout = (value > 0) ? value : 1;
   }
 
   void Timer::setHertz(int value) {
