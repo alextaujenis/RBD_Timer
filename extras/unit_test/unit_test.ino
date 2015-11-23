@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.0.5 - Unit test coverage.
+// Arduino RBD Timer Library v1.1.0 - Unit test coverage.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -13,7 +13,7 @@ RBD::Timer timer;
     assertTrue(timer.isExpired());
     assertFalse(timer.isActive());
   }
-  
+
 // setTimeout
   test(setTimeout_should_set_the_timeout_in_milliseconds) {
     timer.setTimeout(100);
@@ -66,7 +66,7 @@ RBD::Timer timer;
 
     assertFalse(timer.isActive());
   }
-  
+
 // isExpired
   test(isExpired_should_return_false_if_time_is_available) {
     timer.setTimeout(1);
@@ -94,7 +94,33 @@ RBD::Timer timer;
 
     assertTrue(timer.isExpired());
   }
-  
+
+// isStopped
+  test(isStopped_should_return_true_if_stopped) {
+    timer.setTimeout(1);
+    timer.restart();
+    timer.stop();
+
+    assertTrue(timer.isStopped());
+  }
+
+  test(isStopped_should_return_false_if_active) {
+    timer.setTimeout(1);
+    timer.restart();
+
+    assertTrue(timer.isActive());
+    assertFalse(timer.isStopped());
+  }
+
+  test(isStopped_should_return_false_if_expired) {
+    timer.setTimeout(1);
+    timer.restart();
+    delay(1);
+
+    assertTrue(timer.isExpired());
+    assertFalse(timer.isStopped());
+  }
+
 // onRestart
   test(onRestart_should_return_true_if_the_timer_expires) {
     timer.setTimeout(1);
@@ -178,13 +204,12 @@ RBD::Timer timer;
     assertFalse(timer.onExpired());
   }
 
-
 // stop
   test(isActive_and_onActive_should_return_false_after_stop) {
     timer.setTimeout(1);
-    timer.restart();   
+    timer.restart();
     timer.stop();
-    
+
     assertFalse(timer.isActive());
     assertFalse(timer.onActive());
   }
@@ -193,22 +218,20 @@ RBD::Timer timer;
     timer.setTimeout(1);
     timer.restart();
     timer.stop();
-
     delay(1);
+
     assertFalse(timer.isExpired());
     assertFalse(timer.onExpired());
   }
-
 
   test(onRestart_should_return_false_after_stop) {
     timer.setTimeout(1);
     timer.restart();
     timer.stop();
-
     delay(1);
+
     assertFalse(timer.onRestart());
   }
-
 
 // getValue
   test(getValue_should_return_the_time_passed_since_restart) {
