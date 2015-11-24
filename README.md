@@ -1,4 +1,4 @@
-#Arduino Timer Library v1.1.0
+#Arduino Timer Library v1.1.1
 Manage many timed events.
 
 * [Documentation](http://robotsbigdata.com/docs-arduino-timer.html)

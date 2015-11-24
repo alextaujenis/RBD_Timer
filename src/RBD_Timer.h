@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.1.0 - Manage many timed events.
+// Arduino RBD Timer Library v1.1.1 - Manage many timed events.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -28,10 +28,11 @@ namespace RBD {
     private:
       unsigned long _timeout;               // how long this timer should run for
       unsigned long _waypoint;              // the point in time the timer was started or reset
+      int _temp_value;                      // help constrain setHertz value
       bool _has_been_active  = false;       // helps fire the onActive event only once
       bool _has_been_expired = false;       // helps fire the onExpired event only once
       enum {ACTIVE, EXPIRED, STOPPED} _state = EXPIRED;  // timer internal state
-      void _updateState();                  // update state according to current state and current value
+      void _updateState();                  // maintains timer current state, helps eliminate rollover issues
   };
 }
 

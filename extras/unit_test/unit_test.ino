@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.1.0 - Unit test coverage.
+// Arduino RBD Timer Library v1.1.1 - Unit test coverage.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -22,6 +22,13 @@ RBD::Timer timer;
     assertEqual(timer.getInverseValue(), 100);
   }
 
+  test(setTimeout_should_constrain_the_lower_bounds_to_one_millisecond) {
+    timer.setTimeout(0);
+    timer.restart();
+
+    assertEqual(timer.getInverseValue(), 1);
+  }
+
 // setHertz
   test(setHertz_should_set_the_refresh_rate_per_second) {
     timer.setHertz(10);
@@ -30,13 +37,62 @@ RBD::Timer timer;
     assertEqual(timer.getInverseValue(), 100);
   }
 
+  test(setHertz_should_constrain_the_lower_bounds_to_one_if_provided_zero) {
+    timer.setHertz(0);
+    timer.restart();
+
+    assertEqual(timer.getInverseValue(), 1000);
+  }
+
+  test(setHertz_should_constrain_the_lower_bounds_to_one_if_provided_a_negative_number) {
+    timer.setHertz(-1);
+    timer.restart();
+
+    assertEqual(timer.getInverseValue(), 1000);
+  }
+
+  test(setHertz_should_constrain_the_upper_bounds_to_one_thousand_if_provided_a_large_number) {
+    timer.setHertz(1234);
+    timer.restart();
+
+    assertEqual(timer.getInverseValue(), 1);
+  }
+
+  test(setHertz_should_properly_set_a_value_on_the_lower_bounds_of_the_threshold) {
+    timer.setHertz(1);
+    timer.restart();
+
+    assertEqual(timer.getInverseValue(), 1000);
+  }
+
+  test(setHertz_should_properly_set_a_value_on_the_upper_bounds_of_the_threshold) {
+    timer.setHertz(1000);
+    timer.restart();
+
+    assertEqual(timer.getInverseValue(), 1);
+  }
+
 // restart
   test(restart_should_make_it_active) {
     timer.setTimeout(1);
     timer.restart();
 
     assertTrue(timer.isActive());
+  }
+
+  test(restart_should_make_it_not_expired) {
+    timer.setTimeout(1);
+    timer.restart();
+
     assertFalse(timer.isExpired());
+  }
+
+  test(restart_should_make_it_not_stopped) {
+    timer.setTimeout(1);
+    timer.stop();
+    timer.restart();
+
+    assertFalse(timer.isStopped());
   }
 
 // isActive
