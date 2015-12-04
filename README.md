@@ -2,9 +2,8 @@
 Manage many timed events.
 
 * [Documentation](http://robotsbigdata.com/docs-arduino-timer.html)
-* [Download Library](https://github.com/alextaujenis/RBD_Timer/raw/master/extras/RBD_Timer.zip)
 * [Project Website](http://robotsbigdata.com)
-* [Report an Issue](https://github.com/alextaujenis/RBD_Timer/issues/new)*
+* [Comments, Questions, or Issues](https://github.com/alextaujenis/RBD_Timer/issues/new)*
 
 \**Please include your Arduino make/model and IDE version when reporting an issue with this library.*
 
