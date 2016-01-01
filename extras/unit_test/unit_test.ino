@@ -1,6 +1,6 @@
-// Arduino RBD Timer Library v1.1.1 - Unit test coverage.
+// Arduino RBD Timer Library v1.1.2 - Unit test coverage.
 // https://github.com/alextaujenis/RBD_Timer
-// Copyright 2015 Alex Taujenis
+// Copyright 2016 Alex Taujenis
 // MIT License
 
 #include <ArduinoUnit.h> // https://github.com/mmurdoch/arduinounit

@@ -1,6 +1,6 @@
-// Arduino RBD Timer Library v1.1.1 - Manage many timed events.
+// Arduino RBD Timer Library v1.1.2 - Manage many timed events.
 // https://github.com/alextaujenis/RBD_Timer
-// Copyright 2015 Alex Taujenis
+// Copyright 2016 Alex Taujenis
 // MIT License
 
 #include <Arduino.h>
@@ -12,15 +12,9 @@ namespace RBD {
   }
 
   void Timer::setHertz(int value) {
-    if(value < 1)
-      {_temp_value = 1;}
-    else if (value > 1000)
-      {_temp_value = 1000;}
-    else
-      {_temp_value = value;}
-
     // possible to do: manage setHertz in micros() for higher resolution
-    _timeout = (unsigned long)(1000 / _temp_value);
+    _temp_value = constrain(value, 1, 1000);
+    _timeout    = (unsigned long)(1000 / _temp_value);
   }
 
   void Timer::restart() {

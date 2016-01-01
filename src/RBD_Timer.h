@@ -1,6 +1,6 @@
 // Arduino RBD Timer Library v1.1.1 - Manage many timed events.
 // https://github.com/alextaujenis/RBD_Timer
-// Copyright 2015 Alex Taujenis
+// Copyright 2016 Alex Taujenis
 // MIT License
 
 #ifndef RBD_TIMER_H
