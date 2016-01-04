@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.1.2 - Manage many timed events.
+// Arduino RBD Timer Library v1.2.0 - Manage many timed events.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright 2016 Alex Taujenis
 // MIT License
@@ -7,12 +7,10 @@
 #include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
 
 namespace RBD {
-  Timer::Timer() {
-  }
+  Timer::Timer() {}
 
-  Timer::Timer(unsigned long timeout_value)
-  {
-    _timeout = timeout_value;
+  Timer::Timer(unsigned long value) {
+    setTimeout(value);
   }
 
   void Timer::setTimeout(unsigned long value) {
@@ -81,6 +79,7 @@ namespace RBD {
   }
 
   int Timer::getPercentValue() {
+    if(_timeout == 0) {return 0;}
     return getValue() / float(_timeout) * 100;
   }
 

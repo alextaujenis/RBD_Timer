@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.1.2 - Unit test coverage.
+// Arduino RBD Timer Library v1.2.0 - Unit test coverage.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright 2016 Alex Taujenis
 // MIT License
@@ -7,11 +7,26 @@
 #include <RBD_Timer.h>   // https://github.com/alextaujenis/RBD_Timer
 
 RBD::Timer timer;
+RBD::Timer timer_untouched;
+RBD::Timer timer_timeout(100);
+RBD::Timer timer_zero;
 
 // constructor
   test(constructor_should_begin_expired) {
-    assertTrue(timer.isExpired());
-    assertFalse(timer.isActive());
+    assertTrue(timer_untouched.isExpired());
+    assertFalse(timer_untouched.isActive());
+  }
+
+  test(constructor_should_set_the_default_timeout_to_zero_milliseconds) {
+    timer_untouched.restart();
+    assertEqual(timer_untouched.getInverseValue(), 0);
+  }
+
+// overloaded constructor
+  test(overloaded_constructor_should_set_the_timeout_in_milliseconds) {
+    timer_timeout.restart();
+
+    assertEqual(timer_timeout.getInverseValue(), 100);
   }
 
 // setTimeout
@@ -97,7 +112,7 @@ RBD::Timer timer;
 
 // isActive
   test(isActive_should_return_true_if_time_is_available) {
-    timer.setTimeout(1);
+    timer.setTimeout(10);
     timer.restart();
 
     assertTrue(timer.isActive());
@@ -106,19 +121,19 @@ RBD::Timer timer;
   test(isActive_should_return_false_if_time_has_run_out) {
     timer.setTimeout(1);
     timer.restart();
-    delay(1);
+    delay(2);
 
     assertFalse(timer.isActive());
   }
 
   test(isActive_should_remain_false_on_timer_rollover) {
-    timer.setTimeout(1);
+    timer.setTimeout(10);
     timer.restart();
 
-    delay(1);
+    delay(11);
     assertFalse(timer.isActive());
 
-    timer.setTimeout(5); // make it active again without calling restart: almost like timer rollover
+    timer.setTimeout(20); // make it active again without calling restart: almost like timer rollover
 
     assertFalse(timer.isActive());
   }
@@ -140,13 +155,13 @@ RBD::Timer timer;
   }
 
   test(isExpired_should_remain_true_on_timer_rollover) {
-    timer.setTimeout(1);
+    timer.setTimeout(10);
     timer.restart();
 
-    delay(1);
+    delay(11);
     assertTrue(timer.isExpired());
 
-    timer.setTimeout(5); // make it active again without calling restart: almost like timer rollover
+    timer.setTimeout(20); // make it active again without calling restart: almost like timer rollover
 
     assertTrue(timer.isExpired());
   }
@@ -161,7 +176,7 @@ RBD::Timer timer;
   }
 
   test(isStopped_should_return_false_if_active) {
-    timer.setTimeout(1);
+    timer.setTimeout(5);
     timer.restart();
 
     assertTrue(timer.isActive());
@@ -291,11 +306,11 @@ RBD::Timer timer;
 
 // getValue
   test(getValue_should_return_the_time_passed_since_restart) {
-    timer.setTimeout(2);
+    timer.setTimeout(5);
     timer.restart();
-    delay(2);
+    delay(5);
 
-    assertEqual(timer.getValue(), 2);
+    assertEqual(timer.getValue(), 5);
   }
 
 // getInverseValue
@@ -309,18 +324,24 @@ RBD::Timer timer;
 
 // getPercentValue
   test(getPercentValue_should_return_the_percentage_of_time_passed) {
-    timer.setTimeout(5);
+    timer.setTimeout(100);
     timer.restart();
-    delay(2);
+    delay(40);
 
     assertEqual(timer.getPercentValue(), 40);
   }
 
+  test(getPercentValue_should_not_divide_by_zero) {
+    timer_zero.restart();
+
+    assertEqual(timer_zero.getPercentValue(), 0);
+  }
+
 // getInversePercentValue
   test(getInversePercentValue_should_return_the_percentage_of_time_remaining) {
-    timer.setTimeout(5);
+    timer.setTimeout(100);
     timer.restart();
-    delay(2);
+    delay(40);
 
     assertEqual(timer.getInversePercentValue(), 60);
   }
