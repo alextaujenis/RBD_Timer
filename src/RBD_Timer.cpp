@@ -7,6 +7,14 @@
 #include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
 
 namespace RBD {
+  Timer::Timer() {
+  }
+
+  Timer::Timer(unsigned long timeout_value)
+  {
+    _timeout = timeout_value;
+  }
+
   void Timer::setTimeout(unsigned long value) {
     _timeout = (value > 0) ? value : 1;
   }
