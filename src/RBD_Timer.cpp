@@ -17,6 +17,10 @@ namespace RBD {
     _timeout = (value > 0) ? value : 1;
   }
 
+  unsigned long Timer::getTimeout() const {
+    return _timeout;
+  }
+
   void Timer::setHertz(int value) {
     // possible to do: manage setHertz in micros() for higher resolution
     _temp_value = constrain(value, 1, 1000);
