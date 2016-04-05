@@ -14,6 +14,7 @@ namespace RBD {
       Timer();                              // constructor with zero timeout, starts in "expired" state by default
       Timer(unsigned long value);           // overloaded constructor: provide a setTimeout in milliseconds, starts in "expired" state by default
       void setTimeout(unsigned long value); // set/change how long until the timer expires in milliseconds
+      unsigned long getTimeout() const;     // Returns the value how long until the timer expires in milliseconds
       void setHertz(int value);             // set/change how many times the timer can be restarted in one second
       void restart();                       // reset and start the timer
       void stop();                          // stop the timer
