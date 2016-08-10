@@ -13,9 +13,8 @@ namespace RBD {
     public:
       Timer();                              // constructor with zero timeout, starts in "expired" state by default
       Timer(unsigned long value);           // overloaded constructor: provide a setTimeout in milliseconds, starts in "expired" state by default
-      void setTimeout(unsigned long value); // set/change how long until the timer expires in milliseconds
-      unsigned long getTimeout();           // returns the value of setTimeout() - how long the timer will run until it expires in milliseconds
-      void setHertz(int value);             // set/change how many times the timer can be restarted in one second
+      void setTimeout(unsigned long value); // set/change how long the timer will run until it expires in milliseconds
+      void setHertz(int value);             // set/change how many times onRestart will return true in one second
       void restart();                       // reset and start the timer
       void stop();                          // stop the timer
       bool isActive();                      // check if time is left
@@ -24,6 +23,8 @@ namespace RBD {
       bool onRestart();                     // returns true if the timer is expired and restarts the timer automatically
       bool onActive();                      // returns true once the timer is active, then waits for it to expire and go active again
       bool onExpired();                     // returns true once the timer is expired, then waits for it to go active and expire again
+      unsigned long getTimeout();           // returns the value of setTimeout, which is how long the timer will run until it expires in milliseconds
+      int getHertz();                       // returns the value of setHertz, which is how many times onRestart will return true in one second
       unsigned long getValue();             // how many milliseconds that have passed since the start of the timer
       unsigned long getInverseValue();      // how many milliseconds the timer has until finished
       int getPercentValue();                // how much time has passed as a percentage of the interval
@@ -31,9 +32,9 @@ namespace RBD {
     private:
       unsigned long _timeout  = 0;          // how long this timer should run for
       unsigned long _waypoint = 0;          // the point in time the timer was started or reset
-      int _temp_value;                      // help constrain setHertz value
-      bool _has_been_active  = false;       // helps fire the onActive event only once
-      bool _has_been_expired = false;       // helps fire the onExpired event only once
+      int _hertz              = 0;          // the value given to setHertz
+      bool _has_been_active   = false;      // helps fire the onActive event only once
+      bool _has_been_expired  = false;      // helps fire the onExpired event only once
       void _updateState();                  // maintains timer current state, helps eliminate rollover issues
       enum {ACTIVE, EXPIRED, STOPPED} _state = EXPIRED;  // timer internal states, constructed in "expired" state by default
   };

@@ -9,6 +9,8 @@ isStopped	KEYWORD2
 onRestart	KEYWORD2
 onActive	KEYWORD2
 onExpired	KEYWORD2
+getTimeout	KEYWORD2
+getHertz	KEYWORD2
 getValue	KEYWORD2
 getInverseValue	KEYWORD2
 getPercentValue	KEYWORD2

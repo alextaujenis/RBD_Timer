@@ -62,31 +62,38 @@ RBD::Timer timer_zero;
   test(setHertz_should_constrain_the_lower_bounds_to_one_if_provided_zero) {
     timer.setHertz(0);
 
-    assertEqual(timer.getTimeout(), 1000); // one time per second
+    assertEqual(timer.getHertz(), 1);
   }
 
   test(setHertz_should_constrain_the_lower_bounds_to_one_if_provided_a_negative_number) {
     timer.setHertz(-1);
 
-    assertEqual(timer.getTimeout(), 1000); // one time per second
+    assertEqual(timer.getHertz(), 1);
   }
 
   test(setHertz_should_constrain_the_upper_bounds_to_one_thousand_if_provided_a_large_number) {
     timer.setHertz(1234);
 
-    assertEqual(timer.getTimeout(), 1); // one thousand times per second
+    assertEqual(timer.getHertz(), 1000);
   }
 
   test(setHertz_should_properly_set_a_value_on_the_lower_bounds_of_the_threshold) {
     timer.setHertz(1);
 
-    assertEqual(timer.getTimeout(), 1000); // one time per second
+    assertEqual(timer.getHertz(), 1);
   }
 
   test(setHertz_should_properly_set_a_value_on_the_upper_bounds_of_the_threshold) {
     timer.setHertz(1000);
 
-    assertEqual(timer.getTimeout(), 1); // one thousand times per second
+    assertEqual(timer.getHertz(), 1000);
+  }
+
+// getHertz
+  test(getHerts_should_return_the_hertz_value) {
+    timer.setHertz(42);
+
+    assertEqual(timer.getHertz(), 42);
   }
 
 // restart

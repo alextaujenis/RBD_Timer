@@ -23,8 +23,12 @@ namespace RBD {
 
   void Timer::setHertz(int value) {
     // possible to do: manage setHertz in micros() for higher resolution
-    _temp_value = constrain(value, 1, 1000);
-    _timeout    = (unsigned long)(1000 / _temp_value);
+    _hertz   = constrain(value, 1, 1000);
+    _timeout = (unsigned long)(1000 / _hertz);
+  }
+
+  int Timer::getHertz() {
+    return _hertz;
   }
 
   void Timer::restart() {
