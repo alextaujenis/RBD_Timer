@@ -37,15 +37,18 @@ RBD::Timer timer_zero;
     assertEqual(timer.getInverseValue(), 100);
   }
 
-  // setTimeout/getTimeout
-    test(getTimeout_should_return_the_timeout_in_milliseconds) {
-      timer.setTimeout(100);
-      assertEqual(timer.getTimeout(), 100);
-      timer.setTimeout(42);
-      assertEqual(timer.getTimeout(), 42);
-      timer.setTimeout(100000L); // trailing 'L' is important for 'long' literal
-      assertEqual(timer.getTimeout(), 100000L);
-    }
+// getTimeout
+  test(getTimeout_should_return_the_timeout_in_milliseconds) {
+    timer.setTimeout(42);
+
+    assertEqual(timer.getTimeout(), 42);
+  }
+
+  test(getTimeout_should_return_the_timeout_in_long_milliseconds) {
+    timer.setTimeout(100000L); // trailing 'L' is important for 'long' literal
+
+    assertEqual(timer.getTimeout(), 100000L);
+  }
 
   test(setTimeout_should_constrain_the_lower_bounds_to_one_millisecond) {
     timer.setTimeout(0);
