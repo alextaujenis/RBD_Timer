@@ -18,23 +18,31 @@ RBD::Timer timer_zero;
   }
 
   test(constructor_should_set_the_default_timeout_to_zero_milliseconds) {
-    timer_untouched.restart();
-    assertEqual(timer_untouched.getInverseValue(), 0);
+    assertEqual(timer_untouched.getTimeout(), 0);
   }
 
 // overloaded constructor
   test(overloaded_constructor_should_set_the_timeout_in_milliseconds) {
-    timer_timeout.restart();
-
-    assertEqual(timer_timeout.getInverseValue(), 100);
+    assertEqual(timer_timeout.getTimeout(), 100);
   }
 
 // setTimeout
   test(setTimeout_should_set_the_timeout_in_milliseconds) {
     timer.setTimeout(100);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 100);
+    assertEqual(timer.getTimeout(), 100);
+  }
+
+  test(setTimeout_should_set_the_timeout_in_long_milliseconds) {
+    timer.setTimeout(100000L); // trailing 'L' is important for 'long' literal
+
+    assertEqual(timer.getTimeout(), 100000L);
+  }
+
+  test(setTimeout_should_constrain_the_lower_bounds_to_one_millisecond) {
+    timer.setTimeout(0);
+
+    assertEqual(timer.getTimeout(), 1);
   }
 
 // getTimeout
@@ -44,60 +52,41 @@ RBD::Timer timer_zero;
     assertEqual(timer.getTimeout(), 42);
   }
 
-  test(getTimeout_should_return_the_timeout_in_long_milliseconds) {
-    timer.setTimeout(100000L); // trailing 'L' is important for 'long' literal
-
-    assertEqual(timer.getTimeout(), 100000L);
-  }
-
-  test(setTimeout_should_constrain_the_lower_bounds_to_one_millisecond) {
-    timer.setTimeout(0);
-    timer.restart();
-
-    assertEqual(timer.getInverseValue(), 1);
-  }
-
 // setHertz
   test(setHertz_should_set_the_refresh_rate_per_second) {
     timer.setHertz(10);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 100);
+    assertEqual(timer.getTimeout(), 100); // ten times per second
   }
 
   test(setHertz_should_constrain_the_lower_bounds_to_one_if_provided_zero) {
     timer.setHertz(0);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 1000);
+    assertEqual(timer.getTimeout(), 1000); // one time per second
   }
 
   test(setHertz_should_constrain_the_lower_bounds_to_one_if_provided_a_negative_number) {
     timer.setHertz(-1);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 1000);
+    assertEqual(timer.getTimeout(), 1000); // one time per second
   }
 
   test(setHertz_should_constrain_the_upper_bounds_to_one_thousand_if_provided_a_large_number) {
     timer.setHertz(1234);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 1);
+    assertEqual(timer.getTimeout(), 1); // one thousand times per second
   }
 
   test(setHertz_should_properly_set_a_value_on_the_lower_bounds_of_the_threshold) {
     timer.setHertz(1);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 1000);
+    assertEqual(timer.getTimeout(), 1000); // one time per second
   }
 
   test(setHertz_should_properly_set_a_value_on_the_upper_bounds_of_the_threshold) {
     timer.setHertz(1000);
-    timer.restart();
 
-    assertEqual(timer.getInverseValue(), 1);
+    assertEqual(timer.getTimeout(), 1); // one thousand times per second
   }
 
 // restart
@@ -125,7 +114,7 @@ RBD::Timer timer_zero;
 
 // isActive
   test(isActive_should_return_true_if_time_is_available) {
-    timer.setTimeout(10);
+    timer.setTimeout(1);
     timer.restart();
 
     assertTrue(timer.isActive());
@@ -205,6 +194,19 @@ RBD::Timer timer_zero;
     assertFalse(timer.isStopped());
   }
 
+  test(isStopped_should_remain_true_on_timer_rollover) {
+    timer.setTimeout(10);
+    timer.restart();
+
+    delay(11);
+    assertTrue(timer.isExpired());
+    timer.stop();
+
+    timer.setTimeout(20); // make it active again without calling restart: almost like timer rollover
+
+    assertTrue(timer.isStopped());
+  }
+
 // onRestart
   test(onRestart_should_return_true_if_the_timer_expires) {
     timer.setTimeout(1);
@@ -226,6 +228,7 @@ RBD::Timer timer_zero;
 // onActive
   test(onActive_should_return_false_if_the_timer_has_not_been_restarted) {
     timer.setTimeout(1);
+
     assertFalse(timer.onActive());
   }
 
@@ -269,8 +272,8 @@ RBD::Timer timer_zero;
     timer.setTimeout(1);
     timer.restart();
     delay(1);
+    timer.onExpired();
 
-    assertTrue(timer.onExpired());
     assertFalse(timer.onExpired());
   }
 
@@ -321,9 +324,9 @@ RBD::Timer timer_zero;
   test(getValue_should_return_the_time_passed_since_restart) {
     timer.setTimeout(5);
     timer.restart();
-    delay(5);
+    delay(2);
 
-    assertEqual(timer.getValue(), 5);
+    assertEqual(timer.getValue(), 2);
   }
 
 // getInverseValue
@@ -357,6 +360,12 @@ RBD::Timer timer_zero;
     delay(40);
 
     assertEqual(timer.getInversePercentValue(), 60);
+  }
+
+  test(getInversePercentValue_should_not_divide_by_zero) {
+    timer_zero.restart();
+
+    assertEqual(timer_zero.getInversePercentValue(), 100);
   }
 
 
