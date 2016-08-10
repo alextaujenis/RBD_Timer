@@ -17,7 +17,7 @@ namespace RBD {
     _timeout = (value > 0) ? value : 1;
   }
 
-  unsigned long Timer::getTimeout() const {
+  unsigned long Timer::getTimeout() {
     return _timeout;
   }
 
