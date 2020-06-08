@@ -1,4 +1,4 @@
-# Arduino Timer Library v1.3.1 [![Build Passing](https://raw.githubusercontent.com/alextaujenis/RobotsBigData/gh-pages/src/images/passing.png)](https://github.com/alextaujenis/RBD_Timer/blob/master/extras/unit_test/unit_test.ino)
+# Arduino Timer Library v1.3.2 [![Build Passing](https://raw.githubusercontent.com/alextaujenis/RobotsBigData/gh-pages/src/images/passing.png)](https://github.com/alextaujenis/RBD_Timer/blob/master/extras/unit_test/unit_test.ino)
 Manage many timed events.
 
 * [Documentation](http://robotsbigdata.com/docs-arduino-timer.html)
