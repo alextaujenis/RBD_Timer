@@ -3,6 +3,7 @@ setTimeout	KEYWORD2
 setHertz	KEYWORD2
 restart	KEYWORD2
 stop	KEYWORD2
+expire	KEYWORD2
 isActive	KEYWORD2
 isExpired	KEYWORD2
 isStopped	KEYWORD2

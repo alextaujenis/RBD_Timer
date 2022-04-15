@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.3.2 - Manage many timed events.
+// Arduino RBD Timer Library v1.4.0 - Manage many timed events.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright (c) 2015 Alex Taujenis - MIT License
 
@@ -16,6 +16,7 @@ namespace RBD {
       void setHertz(int value);             // set/change how many times onRestart will return true in one second
       void restart();                       // reset and start the timer
       void stop();                          // stop the timer
+      void expire();                        // expire the timer without changing the timeout
       bool isActive();                      // check if time is left
       bool isExpired();                     // returns true if time has run out
       bool isStopped();                     // returns true if the timer is stopped

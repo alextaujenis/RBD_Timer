@@ -1,4 +1,4 @@
-// Arduino RBD Timer Library v1.3.2 - Unit test coverage.
+// Arduino RBD Timer Library v1.4.0 - Unit test coverage.
 // https://github.com/alextaujenis/RBD_Timer
 // Copyright (c) 2015 Alex Taujenis - MIT License
 
@@ -114,6 +114,41 @@ RBD::Timer timer_zero;
     timer.setTimeout(1);
     timer.stop();
     timer.restart();
+
+    assertFalse(timer.isStopped());
+  }
+
+// expire
+  test(isExpired_and_onExpired_should_return_true_after_expire) {
+    timer.setTimeout(1);
+    timer.restart();
+    timer.expire();
+
+    assertTrue(timer.isExpired());
+    assertTrue(timer.onExpired());
+  }
+
+  test(isActive_and_onActive_should_return_false_after_expire) {
+    timer.setTimeout(1);
+    timer.restart();
+    timer.expire();
+
+    assertFalse(timer.isActive());
+    assertFalse(timer.onActive());
+  }
+
+  test(onRestart_should_return_true_after_expire) {
+    timer.setTimeout(1);
+    timer.restart();
+    timer.expire();
+
+    assertTrue(timer.onRestart());
+  }
+
+  test(isStopped_should_return_false_after_expire) {
+    timer.setTimeout(1);
+    timer.stop();
+    timer.expire();
 
     assertFalse(timer.isStopped());
   }
@@ -330,9 +365,9 @@ RBD::Timer timer_zero;
   test(getValue_should_return_the_time_passed_since_restart) {
     timer.setTimeout(5);
     timer.restart();
-    delay(2);
+    delay(1);
 
-    assertEqual(timer.getValue(), 2);
+    assertEqual(timer.getValue(), 1);
   }
 
 // getInverseValue
